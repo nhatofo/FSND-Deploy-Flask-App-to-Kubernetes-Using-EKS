@@ -1,10 +1,12 @@
 FROM python:stretch
-COPY . /examples
 
-WORKDIR /examples
+COPY . /app
+WORKDIR /app
 
 RUN pip install --upgrade pip
-RUN pip install pytest==4.0.2
 RUN pip install -r requirements.txt
+RUN pip install gunicorn
 
-ENTRYPOINT ["gunicorn", "-b", ":8080","main:APP"]
+EXPOSE 8080
+
+ENTRYPOINT ["gunicorn","-b","127.0.0.1:8080","main:APP"]
